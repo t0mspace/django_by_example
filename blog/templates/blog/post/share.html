@@ -1,0 +1,31 @@
+{% extends "blog/base.html" %}
+{% block content %}
+
+  {% if sent %}
+      <h1>E-mail successfully sent</h1>
+      <p>
+        "{{ post.title }}" was successfully sent to {{ form.cleaned_data.to }}
+      </p>
+
+  {% else %}
+    {%if form.errors %}
+    {{ form.errors }}
+    {% endif %}
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+            {{ message }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    <form method="POST" action="{% url 'blog:share' post.id %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" value="Send e-mail">
+    </form>
+  {% endif %}
+{% endblock %}
+
+
