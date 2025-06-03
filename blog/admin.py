@@ -11,3 +11,13 @@ class Post(admin.ModelAdmin):
     date_hierarchy = 'publish'
     ordering = ['status', 'publish']
     show_facets = admin.ShowFacets.ALWAYS
+
+
+from .models import Comment, Post
+
+
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+  list_display = ['name', 'email', 'post', 'created', 'active']
+  list_filter = ['active', 'created', 'updated']
+  search_fields = ['name', 'email', 'body']
